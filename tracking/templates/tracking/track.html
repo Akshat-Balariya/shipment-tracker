@@ -1,0 +1,46 @@
+{% extends "tracking/base.html" %}
+
+{% block title %}{{ tracking_number }} — Shipment Tracker{% endblock %}
+
+{% block content %}
+{% if shipment %}
+  <div class="card">
+    <div class="spread">
+      <h1 class="mono">{{ shipment.tracking_number }}</h1>
+      <span class="badge">{{ shipment.current_status }}</span>
+    </div>
+
+    <dl class="meta">
+      <dt>Origin</dt><dd>{{ shipment.origin }}</dd>
+      <dt>Destination</dt><dd>{{ shipment.destination }}</dd>
+      <dt>Carrier</dt><dd>{{ shipment.carrier|default:"—" }}</dd>
+      <dt>Created</dt><dd>{{ shipment.created_at }}</dd>
+      <dt>Last update</dt><dd>{{ shipment.updated_at }}</dd>
+    </dl>
+  </div>
+
+  <div class="card" style="margin-top:20px">
+    <h2>History</h2>
+    <ul class="timeline">
+      {% for entry in shipment.history.all %}
+        <li>
+          <strong>{{ entry.status }}</strong>
+          <div class="when">{{ entry.timestamp }}</div>
+          {% if entry.note %}<div class="note">{{ entry.note }}</div>{% endif %}
+        </li>
+      {% empty %}
+        <li class="empty">No history recorded yet.</li>
+      {% endfor %}
+    </ul>
+  </div>
+{% else %}
+  <div class="card">
+    <h1>Not found</h1>
+    <p class="sub">
+      No shipment matches <code>{{ tracking_number }}</code>.
+      Check the number and try again.
+    </p>
+    <a class="btn" href="{% url 'home' %}">Back to search</a>
+  </div>
+{% endif %}
+{% endblock %}

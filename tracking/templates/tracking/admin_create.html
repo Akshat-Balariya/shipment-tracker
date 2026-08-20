@@ -1,0 +1,30 @@
+{% extends "tracking/base.html" %}
+
+{% block title %}Admin — New shipment{% endblock %}
+
+{% block content %}
+<div class="card">
+  <h1>New shipment</h1>
+  <p class="sub">A tracking number is generated automatically once the shipment is created.</p>
+
+  <form method="post">
+    {% csrf_token %}
+    <div class="field">
+      <label for="origin">Origin</label>
+      <input type="text" id="origin" name="origin" required>
+    </div>
+    <div class="field">
+      <label for="destination">Destination</label>
+      <input type="text" id="destination" name="destination" required>
+    </div>
+    <div class="field">
+      <label for="carrier">Carrier <span style="font-weight:400;color:var(--muted)">(optional)</span></label>
+      <input type="text" id="carrier" name="carrier">
+    </div>
+    <div class="row">
+      <button type="submit">Create shipment</button>
+      <a class="btn btn-quiet" href="{% url 'admin_home' %}">Cancel</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

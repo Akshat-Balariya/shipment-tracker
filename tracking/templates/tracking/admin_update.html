@@ -1,0 +1,39 @@
+{% extends "tracking/base.html" %}
+
+{% block title %}Admin — Update {{ shipment.tracking_number }}{% endblock %}
+
+{% block content %}
+<div class="card">
+  <h1>Update status</h1>
+  <p class="sub">
+    <span class="mono">{{ shipment.tracking_number }}</span>
+    — {{ shipment.origin }} → {{ shipment.destination }}
+    (currently <strong>{{ shipment.current_status }}</strong>)
+  </p>
+
+  <form method="post">
+    {% csrf_token %}
+    <div class="field">
+      <label for="status">New status</label>
+      <input type="text" id="status" name="status" list="status-options"
+             placeholder="In Transit" autocomplete="off" required>
+      <datalist id="status-options">
+        <option value="Created">
+        <option value="Picked Up">
+        <option value="In Transit">
+        <option value="Out for Delivery">
+        <option value="Delivered">
+        <option value="Exception">
+      </datalist>
+    </div>
+    <div class="field">
+      <label for="note">Note <span style="font-weight:400;color:var(--muted)">(optional)</span></label>
+      <input type="text" id="note" name="note" maxlength="255">
+    </div>
+    <div class="row">
+      <button type="submit">Add update</button>
+      <a class="btn btn-quiet" href="{% url 'admin_home' %}">Cancel</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

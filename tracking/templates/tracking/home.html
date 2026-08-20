@@ -1,0 +1,32 @@
+{% extends "tracking/base.html" %}
+
+{% block title %}Track a shipment{% endblock %}
+
+{% block content %}
+<div class="card">
+  <h1>Track a shipment</h1>
+  <p class="sub">Enter the tracking number you were given, e.g. <code>SHIP-A1B2C3</code>.</p>
+
+  <form id="track-form" onsubmit="return goToTracking(event)">
+    <div class="field">
+      <label for="tracking_number">Tracking number</label>
+      <input type="text" id="tracking_number" name="tracking_number"
+             placeholder="SHIP-XXXXXX" autocomplete="off" required>
+    </div>
+    <button type="submit">Track</button>
+  </form>
+</div>
+
+<script>
+  // The lookup route takes the tracking number as a path segment, so build the
+  // URL client-side. Template tag gives us the correct prefix without hardcoding it.
+  var TRACK_URL = "{% url 'track_shipment' 'PLACEHOLDER' %}";
+  function goToTracking(e) {
+    e.preventDefault();
+    var value = document.getElementById("tracking_number").value.trim();
+    if (!value) return false;
+    window.location.href = TRACK_URL.replace("PLACEHOLDER", encodeURIComponent(value));
+    return false;
+  }
+</script>
+{% endblock %}

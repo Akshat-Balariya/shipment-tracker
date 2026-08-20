@@ -5,3 +5,13 @@ __pycache__/
 db.sqlite3
 *.pem
 staticfiles/
+
+# Home-directory files that were captured because the repo was initialised in ~
+.bashrc
+.bash_profile
+.bash_logout
+.bash_history
+.psql_history
+.cache/
+.ssh/
+.venv/

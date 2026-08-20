@@ -1,0 +1,45 @@
+{% extends "tracking/base.html" %}
+
+{% block title %}Admin — Shipments{% endblock %}
+
+{% block content %}
+<div class="spread">
+  <h1>Shipments</h1>
+  <a class="btn" href="{% url 'admin_create' %}">New shipment</a>
+</div>
+
+<div class="card">
+  {% if shipments %}
+    <table>
+      <thead>
+        <tr>
+          <th>Tracking number</th>
+          <th>Route</th>
+          <th>Carrier</th>
+          <th>Status</th>
+          <th>Updated</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for shipment in shipments %}
+          <tr>
+            <td class="mono">
+              <a href="{% url 'track_shipment' shipment.tracking_number %}">{{ shipment.tracking_number }}</a>
+            </td>
+            <td>{{ shipment.origin }} → {{ shipment.destination }}</td>
+            <td>{{ shipment.carrier|default:"—" }}</td>
+            <td><span class="badge">{{ shipment.current_status }}</span></td>
+            <td>{{ shipment.updated_at }}</td>
+            <td>
+              <a href="{% url 'admin_update_status' shipment.tracking_number %}">Update</a>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p class="empty">No shipments yet. Create the first one.</p>
+  {% endif %}
+</div>
+{% endblock %}
